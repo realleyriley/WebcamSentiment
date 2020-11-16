@@ -14,6 +14,12 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 """
+# This file attempts to run inference with an OpenVino model
+#
+# test with this command:
+# python test.py -i images -m emotion-recognition-model\emotions-recognition-retail-0003.xml
+
+
 from __future__ import print_function
 import sys
 import os
