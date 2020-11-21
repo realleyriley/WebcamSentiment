@@ -139,3 +139,6 @@ Machine Learning/emotion model 2/model_35_91_61.h5
 Machine Learning/emotion model 2/saved_model.pb
 Machine Learning/emotion model 2/variables/variables.data-00000-of-00001
 Machine Learning/emotion model 2/variables/variables.index
+Flask Server/CNN/haarcascade_frontalface_default.xml
+Flask Server/CNN/model.h5
+Machine Learning/Emotion-detection

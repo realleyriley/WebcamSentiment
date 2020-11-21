@@ -6,6 +6,8 @@
 import os
 from flask import Flask, render_template, request, Response
 from flask_socketio import SocketIO, emit
+import inference
+
 
 # this is useful for handling multiple clients (multiple tabs)
 # lock = threading.Lock()
@@ -41,12 +43,12 @@ def image(data_image):
     b = io.BytesIO(base64.b64decode(data_image))
     pimg = Image.open(b)
 
-    ## converting RGB to BGR, as opencv standards
+    # converting RGB to BGR, as opencv standards
     frame = cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
 
     # Process the image frame
-    frame = imutils.resize(frame, width=700)
-    frame = cv2.flip(frame, 1)
+    print('run_inf')
+    frame = run_inference(frame)
     imgencode = cv2.imencode('.jpg', frame)[1]
 
     # base64 encode
