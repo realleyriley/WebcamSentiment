@@ -1,0 +1,6 @@
+/channel-artifacts/*
+/crypto-config/*
+/docker-compose-ca.yaml
+/ledgers
+/ledgers-backup
+/org3-artifacts/crypto-config/*
