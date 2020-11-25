@@ -7,20 +7,19 @@
 
 <body>
     <strong>Look up</strong>
-</body>
-
-
-<div id="container">
-    <canvas id="canvasOutput"></canvas>
-    <video autoplay="true" id="videoElement"></video>
-</div>
-
-<div class = 'video'>
-    <img id="image">
-</div>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
-<script>
+    
+    
+    <div id="container">
+        <canvas id="canvasOutput"></canvas>
+        <video autoplay="true" id="videoElement"></video>
+    </div>
+    
+    <div class = 'video'>
+        <img id="image">
+    </div>
+            
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+    <script>
     var videoId = 'video';
     var scaleFactor = 0.25;
     var snapshots = [];
@@ -46,11 +45,32 @@
             ctx.drawImage(video, 0, 0, w, h);
         return canvas;
     } 
+    
+    /**
+    * Invokes the <code>capture</code> function and attaches the canvas element to the DOM.
+    */
+    function shoot(){
+        var video  = document.getElementById(videoId);
+        var output = document.getElementById('output');
+        var canvas = capture(video, scaleFactor);
+            canvas.onclick = function(){
+                window.open(this.toDataURL());
+            };
+        snapshots.unshift(canvas);
+        output.innerHTML = '';
+        for(var i=0; i<4; i++){
+            output.appendChild(snapshots[i]);
+        }
+    }
 
+    /**
+    * original
+    */
     var socket = io('http://127.0.0.1:5000');
 
     socket.on('connect', function(){
-        console.log("socket connected...!", socket.connected)
+        console.log("new socket connected...!", socket.connected);
+        socket.send('new socket connected...!');
     });
 
     const video = document.querySelector("#videoElement");
@@ -70,22 +90,25 @@
         });
     }
 
-    let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
-    let dst = new cv.Mat(video.height, video.width, cv.CV_8UC1);
-    let cap = new cv.VideoCapture(video);
+    // let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
+    // let dst = new cv.Mat(video.height, video.width, cv.CV_8UC1);
+    // let cap = new cv.VideoCapture(video);
 
     const FPS = 22;
 
     setInterval(() => {
-        cap.read(src);
+        // cap.read(src);
+
+        // console.log("getting image");
 
         var type = "image/png"
         // var data = document.getElementById("canvasOutput").toDataURL(type);
+        // data = data.replace('data:' + type + ';base64,', ''); //split off junk at the beginning
+
         var video_element = document.getElementById("videoElement")
         var frame = capture(video_element, 1)
         var data = frame.toDataURL(type);
-
-        data = data.replace('data:' + type + ';base64,', ''); //split off junk at the beginning
+        
 
         socket.emit('image', data);
     }, 10000/FPS);
@@ -97,4 +120,5 @@
     });
 
 </script>
+</body>
 </html>
