@@ -22,6 +22,17 @@ conda install pillow
 ```
 There are probably more packages than just those to install though.
 
+# ngrok
+"One command for an instant, secure URL to your localhost server through any NAT or firewall."
+
+It allows our flask server to be accessible by anyone. 
+
+Download it here: https://ngrok.com/
+
+Unzip the folder anywhere and open a command prompt and cd into the folder. Then type `ngrok http <port>` 
+
+For example, `ngrok http 5000`
+
 # Links
 Tutorial from pytorch about server-side inference:
 https://pytorch.org/tutorials/intermediate/flask_rest_api_tutorial.html
